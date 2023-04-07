@@ -1,3 +1,17 @@
+[data-theme="light"],
+:root:not([data-theme="dark"]) {
+  --primary: #2c86e6;
+  --primary-inverse: #FFF;
+}
+
 body {
-    color: #f76c6c;
+    color: var(--primary);
+}
+
+body > main {
+    --block-spacing-vertical: 1rem;
+}
+
+h1 {
+    color: var(--primary);
 }
