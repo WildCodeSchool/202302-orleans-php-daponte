@@ -1,11 +1,22 @@
+@import url(navbar.css);
+
 [data-theme="light"],
 :root:not([data-theme="dark"]) {
   --primary: #2c86e6;
   --primary-inverse: #FFF;
+  --secondary: #004084;
+  --secondary-inverse: #FFF;
+  --dark:#00070F;
+  --light: #EDF2F6;
 }
 
 body {
     color: var(--primary);
+}
+
+img {
+    width: 100%;
+    object-fit: cover;
 }
 
 body > main {
@@ -15,3 +26,4 @@ body > main {
 h1 {
     color: var(--primary);
 }
+
