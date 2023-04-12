@@ -62,3 +62,21 @@ ALTER TABLE `item`
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
+
+/***** Table Tire ******/
+CREATE TABLE tire (
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  price DECIMAL(6, 2) NOT NULL,
+  image VARCHAR(255),
+  description TEXT
+);
+
+INSERT INTO tire (name, price, description) VALUES 
+('pneu1', 100, 'mon pneu 1'),
+('pneu2', 100, 'mon pneu 2'),
+('pneu3', 99.99, 'mon pneu 3'),
+('pneu4', 100, 'mon pneu 4'),
+('pneu5', 100, 'lorem ipsum dolor'),
+('mon pneu neige', 100, 'mon pneu');
+
