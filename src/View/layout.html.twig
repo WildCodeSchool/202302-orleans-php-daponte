@@ -16,6 +16,9 @@
 		</head>
 
 		<body>
+			{% block navbar %}
+				{% include 'components/_navbar.html.twig' %}
+			{% endblock %}
 			{% block content %}{% endblock %}
 			{% block javascript %}{% endblock %}
 		</body>

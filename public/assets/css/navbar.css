@@ -1,0 +1,17 @@
+
+nav {
+    --nav-element-spacing-vertical: 0.25rem;
+    --nav-element-spacing-horizontal: 0.5rem;
+    padding-inline: var(--nav-element-spacing-horizontal);
+    background-color: var(--dark);
+}
+
+nav img {
+    filter: contrast(3000%) grayscale(100%) invert(100%);
+    mix-blend-mode: hard-light;
+}
+
+nav ul {
+    flex-wrap: wrap;
+    width: 100%;
+}
