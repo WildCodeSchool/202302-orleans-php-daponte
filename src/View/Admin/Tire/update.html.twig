@@ -9,7 +9,7 @@
 	<main class="container">
 		<h1>Modifier le pneu {{ tire.name }}</h1>
 		
-		{% include 'Admin/Tire/_form.html.twig' with buttonName: 'Modifier' %}
+		{% include 'Admin/Tire/_form.html.twig' with {buttonName: 'Modifier'} %}
 
 		<a href="/admin/pneus">Retour</a>
 	</main>
