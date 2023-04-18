@@ -8,6 +8,8 @@
   --secondary-inverse: #FFF;
   --dark:#00070F;
   --light: #EDF2F6;
+  --error: red;
+  --success: green;
 }
 
 body {
