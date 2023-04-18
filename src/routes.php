@@ -17,4 +17,5 @@ return [
     'admin/pneus' => ['AdminTireController', 'index',],
     'admin/pneus/ajouter' => ['AdminTireController', 'create',],
     'admin/pneus/modifier' => ['AdminTireController', 'update', ['id']],
+    'admin/pneus/supprimer' => ['AdminTireController', 'delete', ['id']],
 ];

@@ -94,4 +94,17 @@ class AdminTireController extends AbstractController
             'tire' => $tire,
         ]);
     }
+
+    public function delete(int $id): void
+    {
+        // si je suis en post
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // delete en bdd
+            $tireManager = new TireManager();
+            $tireManager->delete($id);
+
+            // redirec admin/pneus
+            header('Location: /admin/pneus');
+        }
+    }
 }

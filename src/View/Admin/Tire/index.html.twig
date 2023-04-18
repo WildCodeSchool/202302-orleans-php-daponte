@@ -9,7 +9,7 @@
 {% block content %}
 	<main class="container">
 		<h1>Administration des pneus</h1>
-        <a href="/admin/pneus/ajouter" role="button">Ajouter un pneu</a>
+		<a href="/admin/pneus/ajouter" role="button">Ajouter un pneu</a>
 
 		<table>
 			<thead>
@@ -25,7 +25,12 @@
 						<td>{{ tire.name }}</td>
 						<td>{{ tire.price }}€</td>
 						<td>
-							<a href="/admin/pneus/modifier?id={{ tire.id}}">Modifier</a>
+							<div class="actions">
+								<a role="button" class="outline" href="/admin/pneus/modifier?id={{ tire.id }}">Modifier</a>
+								<form action="/admin/pneus/supprimer?id={{ tire.id }}" method="POST">
+									<button class="outline">Supprimer</button>
+								</form>
+							</div>
 						</td>
 					</tr>
 				{% endfor %}
