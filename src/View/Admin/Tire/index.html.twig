@@ -1,15 +1,16 @@
 {% extends 'adminLayout.html.twig' %}
 
-{% block stylesheet %}{% endblock %}
 
 {% block title %}
 	{{ parent() }}
-	| Admin Pneus
+	Pneus
 {% endblock %}
 
 {% block content %}
 	<main class="container">
 		<h1>Administration des pneus</h1>
+        <a href="/admin/pneus/ajouter" role="button">Ajouter un pneu</a>
+
 		<table>
 			<thead>
 				<tr>
