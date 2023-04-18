@@ -1,0 +1,40 @@
+{% extends 'adminLayout.html.twig' %}
+
+
+{% block title %}
+	{{ parent() }}
+	Pneus
+{% endblock %}
+
+{% block content %}
+	<main class="container">
+		<h1>Administration des pneus</h1>
+		<a href="/admin/pneus/ajouter" role="button">Ajouter un pneu</a>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Prix</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for tire in tires %}
+					<tr>
+						<td>{{ tire.name }}</td>
+						<td>{{ tire.price }}€</td>
+						<td>
+							<div class="actions">
+								<a role="button" class="outline" href="/admin/pneus/modifier?id={{ tire.id }}">Modifier</a>
+								<form action="/admin/pneus/supprimer?id={{ tire.id }}" method="POST">
+									<button class="outline">Supprimer</button>
+								</form>
+							</div>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</main>
+{% endblock %}

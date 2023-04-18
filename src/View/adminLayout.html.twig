@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Admin
+{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="/assets/css/admin.css">
+{% endblock %}
+	
+{% block navbar %}
+	{% include 'components/_navbar_admin.html.twig' %}
+{% endblock %}
+

@@ -14,4 +14,8 @@ return [
     'items/add' => ['ItemController', 'add',],
     'items/delete' => ['ItemController', 'delete',],
     'pneus' => ['TireController', 'index',],
+    'admin/pneus' => ['AdminTireController', 'index',],
+    'admin/pneus/ajouter' => ['AdminTireController', 'create',],
+    'admin/pneus/modifier' => ['AdminTireController', 'update', ['id']],
+    'admin/pneus/supprimer' => ['AdminTireController', 'delete', ['id']],
 ];

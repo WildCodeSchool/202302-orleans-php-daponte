@@ -1,0 +1,14 @@
+.errors {
+    color: var(--error);
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing);
+}
+
+.actions button,
+.actions form {
+    margin-block-end: 0;
+}

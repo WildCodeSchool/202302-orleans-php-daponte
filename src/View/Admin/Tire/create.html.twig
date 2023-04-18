@@ -1,0 +1,17 @@
+{% extends 'adminLayout.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	Ajout Pneus
+{% endblock %}
+
+{% block content %}
+	<main class="container">
+		<h1>Ajouter un pneu</h1>
+
+		{% include 'Admin/Tire/_form.html.twig' %}
+		
+		<a href="/admin/pneus">Retour</a>
+	</main>
+
+{% endblock %}
