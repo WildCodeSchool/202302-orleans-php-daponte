@@ -16,6 +16,7 @@
 				<tr>
 					<th>Nom</th>
 					<th>Prix</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -23,6 +24,9 @@
 					<tr>
 						<td>{{ tire.name }}</td>
 						<td>{{ tire.price }}€</td>
+						<td>
+							<a href="/admin/pneus/modifier?id={{ tire.id}}">Modifier</a>
+						</td>
 					</tr>
 				{% endfor %}
 			</tbody>

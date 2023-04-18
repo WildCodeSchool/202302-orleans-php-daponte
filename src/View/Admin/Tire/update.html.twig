@@ -2,15 +2,15 @@
 
 {% block title %}
 	{{ parent() }}
-	Ajout Pneus
+	Modifier Pneus
 {% endblock %}
 
 {% block content %}
 	<main class="container">
-		<h1>Ajouter un pneu</h1>
-
-		{% include 'Admin/Tire/_form.html.twig' %}
+		<h1>Modifier le pneu {{ tire.name }}</h1>
 		
+		{% include 'Admin/Tire/_form.html.twig' with buttonName: 'Modifier' %}
+
 		<a href="/admin/pneus">Retour</a>
 	</main>
 
