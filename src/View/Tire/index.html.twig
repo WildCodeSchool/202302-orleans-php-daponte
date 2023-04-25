@@ -16,7 +16,7 @@
             {% for tire in tires %}
                 <article>
                     <header>
-                        <img src="{{ tire.image ?? 'assets/images/pneu_placeholder.webp' }}" alt="">
+                        <img src="{{ tire.image ? 'uploads/' ~ tire.image : 'assets/images/pneu_placeholder.webp' }}" alt="">
                     </header>
                     <h1>{{ tire.name}}</h1>
                     <h2>{{ tire.category }}</h2>

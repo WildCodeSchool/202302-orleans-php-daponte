@@ -130,11 +130,11 @@ CREATE TABLE
         FOREIGN KEY (category_id) REFERENCES category(id)
     );
 
-INSERT INTO tire (name, price, description, category_id) 
+INSERT INTO tire (name, price, description, category_id, image) 
     VALUES 
-    ('pneu1', 100, 'mon pneu 1', 1),
-    ('pneu2', 100, 'mon pneu 2', 2),
-    ('pneu3', 99.99, 'mon pneu 3', 3),
-    ('pneu4', 100, 'mon pneu 4', 1),
-    ('pneu5', 100, 'lorem ipsum dolor', 2), 
-    ('mon pneu neige', 100, 'mon pneu', 3);
+    ('pneu1', 100, 'mon pneu 1', 1, 'tire1.webp'),
+    ('pneu2', 100, 'mon pneu 2', 2, NULL),
+    ('pneu3', 99.99, 'mon pneu 3', 3, 'tire2.webp'),
+    ('pneu4', 100, 'mon pneu 4', 1, NULL),
+    ('pneu5', 100, 'lorem ipsum dolor', 2, NULL), 
+    ('mon pneu neige', 100, 'mon pneu', 3, NULL);
