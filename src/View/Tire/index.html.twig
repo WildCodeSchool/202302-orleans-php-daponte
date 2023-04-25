@@ -19,7 +19,8 @@
                         <img src="{{ tire.image ?? 'assets/images/pneu_placeholder.webp' }}" alt="">
                     </header>
                     <h1>{{ tire.name}}</h1>
-                    {{ tire.price}}
+                    <h2>{{ tire.category }}</h2>
+                    {{ tire.price}}€
                 </article>
             {% endfor %}
 			

@@ -29,3 +29,6 @@ h1 {
     color: var(--primary);
 }
 
+h1, h2, h3, h4 {
+    --typography-spacing-vertical: 1rem;
+}
