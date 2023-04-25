@@ -16,6 +16,25 @@ class AdminTireController extends AbstractController
             'tires' => $tires,
         ]);
     }
+    private function validateUpload(array $files): array
+    {
+        $errors = [];
+        if ($files['image']['error'] !== 0) {
+            $errors[] = 'Problème avec l\'upload, veuillez réessayer';
+        } else {
+            $limitFileSize = '1000000';
+            if ($files['image']['size'] > $limitFileSize) {
+                $errors[] = 'Le fichier doit faire moins de ' . $limitFileSize / 1000000 . 'Mo';
+            }
+
+            $authorizedMimes = ['image/jpeg', 'image/png', 'image/webp'];
+            if (!in_array(mime_content_type($files['image']['tmp_name']), $authorizedMimes)) {
+                $errors[] = 'Le type de fichier est incorrect. Types autorisées : ' . implode(', ', $authorizedMimes);
+            }
+        }
+
+        return $errors;
+    }
 
     private function validate(array $tire, array $categories): array
     {
@@ -60,7 +79,10 @@ class AdminTireController extends AbstractController
             // nettoyage
             $tire = array_map('trim', $_POST);
             // validation
-            $errors = $this->validate($tire, $categories);
+            $dataErrors = $this->validate($tire, $categories);
+            $uploadErrors = $this->validateUpload($_FILES);
+
+            $errors = array_merge($dataErrors, $uploadErrors);
 
             if (empty($errors)) {
                 // insertion
@@ -93,10 +115,18 @@ class AdminTireController extends AbstractController
             $errors = $this->validate($tire, $categories);
 
             if (empty($errors)) {
+                // nom du fichier uploadé
+                $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+                $baseFilename = pathinfo($_FILES['image']['name'], PATHINFO_FILENAME);
+                $imageName = uniqid($baseFilename, more_entropy: true) . '.' . $extension;
+
+                $tire['image'] = $imageName;
                 // insertion
                 $tireManager = new TireManager();
                 $tireManager->insert($tire);
 
+                // move upload
+                move_uploaded_file($_FILES['image']['tmp_name'], __DIR__ . '/../../public/uploads/'  . $imageName);
                 // redirection
                 header('Location: /admin/pneus');
             }
@@ -115,7 +145,14 @@ class AdminTireController extends AbstractController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // delete en bdd
             $tireManager = new TireManager();
+            $tire = $tireManager->selectOneById($id);
+
+            if (isset($tire['image']) && file_exists(__DIR__ . '/../../public/uploads/' . $tire['image'])) {
+                unlink(__DIR__ . '/../../public/uploads/' . $tire['image']);
+            }
+
             $tireManager->delete($id);
+
 
             // redirec admin/pneus
             header('Location: /admin/pneus');

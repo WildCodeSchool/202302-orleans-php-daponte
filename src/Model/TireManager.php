@@ -20,14 +20,15 @@ class TireManager extends AbstractManager
     public function insert(array $tire): void
     {
         $statement = $this->pdo->prepare(
-            "INSERT INTO " . self::TABLE . " (`name`, `price`, `description`, `category_id`)
-             VALUES (:name, :price, :description, :category_id)"
+            "INSERT INTO " . self::TABLE . " (`name`, `price`, `description`, `category_id`, `image`)
+             VALUES (:name, :price, :description, :category_id, :image)"
         );
 
         $statement->bindValue('name', $tire['name'], PDO::PARAM_STR);
         $statement->bindValue('price', $tire['price']);
         $statement->bindValue('description', $tire['description'], PDO::PARAM_STR);
         $statement->bindValue('category_id', $tire['category'], PDO::PARAM_INT);
+        $statement->bindValue('image', $tire['image'], PDO::PARAM_STR);
 
         $statement->execute();
     }
