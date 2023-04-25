@@ -15,5 +15,11 @@
 		{{- tire.description -}}
 	</textarea>
 
+	<label for="category">Category</label>
+	<select name="category" id="category">
+		{% for category in categories %}
+			<option {{ tire.category_id == category.id ? 'selected' : '' }} value="{{ category.id }}">{{ category.name }}</option>
+		{% endfor %}
+	</select>
 	<button>{{ buttonName|default('Ajouter') }}</button>
 </form>

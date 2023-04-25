@@ -20,13 +20,14 @@ class TireManager extends AbstractManager
     public function insert(array $tire): void
     {
         $statement = $this->pdo->prepare(
-            "INSERT INTO " . self::TABLE . " (`name`, `price`, `description`)
-             VALUES (:name, :price, :description)"
+            "INSERT INTO " . self::TABLE . " (`name`, `price`, `description`, `category_id`)
+             VALUES (:name, :price, :description, :category_id)"
         );
 
         $statement->bindValue('name', $tire['name'], PDO::PARAM_STR);
         $statement->bindValue('price', $tire['price']);
         $statement->bindValue('description', $tire['description'], PDO::PARAM_STR);
+        $statement->bindValue('category_id', $tire['category'], PDO::PARAM_INT);
 
         $statement->execute();
     }
@@ -34,7 +35,8 @@ class TireManager extends AbstractManager
     public function update(array $tire): void
     {
         $statement = $this->pdo->prepare(
-            "UPDATE " . self::TABLE . " SET `name`=:name, `price`=:price, `description`= :description
+            "UPDATE " . self::TABLE . " 
+            SET `name`=:name, `price`=:price, `description`= :description, `category_id` = :category_id
             WHERE id=:id"
         );
 
@@ -42,6 +44,7 @@ class TireManager extends AbstractManager
         $statement->bindValue('price', $tire['price']);
         $statement->bindValue('description', $tire['description'], PDO::PARAM_STR);
         $statement->bindValue('id', $tire['id'], PDO::PARAM_STR);
+        $statement->bindValue('category_id', $tire['category'], PDO::PARAM_INT);
 
         $statement->execute();
     }
