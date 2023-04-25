@@ -19,9 +19,9 @@ class AdminTireController extends AbstractController
     private function validateUpload(array $files): array
     {
         $errors = [];
-        if ($files['image']['error'] !== 0) {
+        if ($files['image']['name'] && $files['image']['error'] !== 0) {
             $errors[] = 'Problème avec l\'upload, veuillez réessayer';
-        } else {
+        } elseif ($files['image']['name']) {
             $limitFileSize = '1000000';
             if ($files['image']['size'] > $limitFileSize) {
                 $errors[] = 'Le fichier doit faire moins de ' . $limitFileSize / 1000000 . 'Mo';
@@ -65,10 +65,29 @@ class AdminTireController extends AbstractController
         return $errors;
     }
 
+    // génère un nom unique pour un fichier
+    private function generateImageName(array $files)
+    {
+        $extension = pathinfo($files['name'], PATHINFO_EXTENSION);
+        $baseFilename = pathinfo($files['name'], PATHINFO_FILENAME);
+        return uniqid($baseFilename, more_entropy: true) . '.' . $extension;
+    }
+
+    // Efface un fichier (pour le delete et l'update)
+    private function deleteFile(string $fileName)
+    {
+        if (
+            !empty($fileName) && file_exists(__DIR__ . '/../../public/uploads/' . $fileName)
+        ) {
+            unlink(__DIR__ . '/../../public/uploads/' . $fileName);
+        }
+    }
+
     public function update(int $id): string
     {
         $tireManager = new TireManager();
         $tire = $tireManager->selectOneById($id);
+        $lastImage = $tire['image'];
 
         $categoryManager = new CategoryManager();
         $categories = $categoryManager->selectAll('name');
@@ -88,6 +107,20 @@ class AdminTireController extends AbstractController
                 // insertion
                 $tireManager = new TireManager();
                 $tire['id'] = $id;
+                $tire['image'] = $lastImage;
+
+                // uniquement si on met un nouveau fichier en upload. Si on laisse le champ vide,
+                // on ne réécrase pas ce qu'il y a en base
+                if (!empty($_FILES['image']['tmp_name'])) {
+                    // on efface l'ancien fichier (nom récupéré au début de la méthode)
+                    $this->deleteFile($lastImage);
+
+                    // on créé un nouveau nom pour le nouveau fichier
+                    $imageName = $this->generateImageName($_FILES['image']);
+                    $tire['image'] = $imageName;
+                    move_uploaded_file($_FILES['image']['tmp_name'], __DIR__ . '/../../public/uploads/'  . $imageName);
+                }
+
                 $tireManager->update($tire);
 
                 // redirection
@@ -112,13 +145,14 @@ class AdminTireController extends AbstractController
             // nettoyage
             $tire = array_map('trim', $_POST);
             // validation
-            $errors = $this->validate($tire, $categories);
+            $dataErrors = $this->validate($tire, $categories);
+            $uploadErrors = $this->validateUpload($_FILES);
+
+            $errors = array_merge($dataErrors, $uploadErrors);
 
             if (empty($errors)) {
                 // nom du fichier uploadé
-                $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-                $baseFilename = pathinfo($_FILES['image']['name'], PATHINFO_FILENAME);
-                $imageName = uniqid($baseFilename, more_entropy: true) . '.' . $extension;
+                $imageName = $this->generateImageName($_FILES['image']);
 
                 $tire['image'] = $imageName;
                 // insertion
@@ -147,9 +181,8 @@ class AdminTireController extends AbstractController
             $tireManager = new TireManager();
             $tire = $tireManager->selectOneById($id);
 
-            if (isset($tire['image']) && file_exists(__DIR__ . '/../../public/uploads/' . $tire['image'])) {
-                unlink(__DIR__ . '/../../public/uploads/' . $tire['image']);
-            }
+            // supprimer un fichier existant
+            $this->deleteFile($tire['image']);
 
             $tireManager->delete($id);
 

@@ -37,7 +37,8 @@ class TireManager extends AbstractManager
     {
         $statement = $this->pdo->prepare(
             "UPDATE " . self::TABLE . " 
-            SET `name`=:name, `price`=:price, `description`= :description, `category_id` = :category_id
+            SET `name`=:name, `price`=:price, `description`= :description,
+            `category_id` = :category_id, `image` = :image
             WHERE id=:id"
         );
 
@@ -46,6 +47,7 @@ class TireManager extends AbstractManager
         $statement->bindValue('description', $tire['description'], PDO::PARAM_STR);
         $statement->bindValue('id', $tire['id'], PDO::PARAM_STR);
         $statement->bindValue('category_id', $tire['category'], PDO::PARAM_INT);
+        $statement->bindValue('image', $tire['image'], PDO::PARAM_STR);
 
         $statement->execute();
     }
