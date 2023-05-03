@@ -12,6 +12,13 @@
 {% block content %}
 	<main class="container-fluid">
 		<h1>Choisir un pneu</h1>
+
+        <form action="" method="GET">
+            <label for="search_tire">Nom de pneu</label>
+            <input id="search_tire" type="search" name="search">
+            <button>Search</button>
+        </form>
+
 		<div class="grid">
             {% for tire in tires %}
                 <article>
