@@ -9,12 +9,33 @@ class TireManager extends AbstractManager
 {
     public const TABLE = 'tire';
 
-    public function selectTires(): array
+    public function findTire(array $search = []): array
     {
         $query = 'SELECT t.*, c.name category FROM ' . self::TABLE . ' t 
         JOIN ' . CategoryManager::TABLE . ' c ON c.id=t.category_id';
 
-        return $this->pdo->query($query)->fetchAll();
+        $queryParts = [];
+        if (!empty($search['name'])) {
+            $queryParts[] = ' t.name LIKE :search';
+        }
+        if (!empty($search['category'])) {
+            $queryParts[] = ' t.category_id = :category';
+        }
+
+        if (!empty($queryParts)) {
+            $query .= ' WHERE ' . implode(' AND ', $queryParts);
+        }
+
+        $statement = $this->pdo->prepare($query);
+        if (!empty($search['name'])) {
+            $statement->bindValue(':search', '%' . $search['name'] . '%', PDO::PARAM_STR);
+        }
+        if (!empty($search['category'])) {
+            $statement->bindValue(':category', $search['category'], PDO::PARAM_INT);
+        }
+
+        $statement->execute();
+        return $statement->fetchAll();
     }
 
     public function insert(array $tire): void

@@ -1,7 +1,7 @@
 {% extends 'layout.html.twig' %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="assets/css/tire.css">
+	<link rel="stylesheet" href="assets/css/tire.css">
 {% endblock %}
 
 {% block title %}
@@ -12,18 +12,33 @@
 {% block content %}
 	<main class="container-fluid">
 		<h1>Choisir un pneu</h1>
+
+		<form action="" method="GET">
+			<label for="search_tire">Nom de pneu</label>
+			<input id="search_tire" type="search" name="name" value="{{ search.name }}">
+
+			<label for="category">Category</label>
+			<select name="category" id="category">
+                <option value=""></option>
+				{% for category in categories %}
+					<option {{ search.category == category.id ? 'selected' : '' }} value="{{ category.id }}">{{ category.name }}</option>
+				{% endfor %}
+			</select>
+			<button>Search</button>
+		</form>
+
 		<div class="grid">
-            {% for tire in tires %}
-                <article>
-                    <header>
-                        <img src="{{ tire.image ? 'uploads/' ~ tire.image : 'assets/images/pneu_placeholder.webp' }}" alt="image du pneu {{ tire.name }}">
-                    </header>
-                    <h1>{{ tire.name}}</h1>
-                    <h2>{{ tire.category }}</h2>
-                    {{ tire.price}}€
-                </article>
-            {% endfor %}
-			
+			{% for tire in tires %}
+				<article>
+					<header>
+						<img src="{{ tire.image ? 'uploads/' ~ tire.image : 'assets/images/pneu_placeholder.webp' }}" alt="image du pneu {{ tire.name }}">
+					</header>
+					<h1>{{ tire.name}}</h1>
+					<h2>{{ tire.category }}</h2>
+					{{ tire.price}}€
+				</article>
+			{% endfor %}
+
 		</div>
 	</main>
 {% endblock %}
